@@ -1,0 +1,56 @@
+ScreenManager:
+    DeviceListScreen:
+    # ChatScreen için template oluşturuyoruz, sonra dinamik olarak ekran ekleyeceğiz
+
+<DeviceListScreen>:
+    name: 'device_list'
+    
+    BoxLayout:
+        orientation: 'vertical'
+        
+        MDToolbar:
+            title: 'Bluetooth Chat App'
+            elevation: 10
+        
+        ScrollView:
+            MDList:
+                id: device_list
+
+    MDFloatingActionButton:
+        icon: 'pencil'
+        md_bg_color: app.theme_cls.primary_color
+        pos_hint: {'x': 0.8, 'y': 0.05}
+        on_release: app.go_to_chat()
+
+<ChatScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        
+        MDToolbar:
+            title: 'Bluetooth Chat App'
+            elevation: 10
+            left_action_items: [['arrow-left', lambda x: app.go_to_device_list()]]
+        
+        ScrollView:
+            MDBoxLayout:
+                id: message_box
+                orientation: 'vertical'
+                adaptive_height: True
+                padding: dp(10)
+                spacing: dp(10)
+
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            padding: dp(10)
+
+            MDTextField:
+                id: message_input
+                hint_text: "Type a message"
+                size_hint_x: 0.85
+                multiline: False
+
+            MDFloatingActionButton:
+                icon: 'send'
+                md_bg_color: app.theme_cls.primary_color
+                on_release: app.send_message()
